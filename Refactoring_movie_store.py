@@ -52,18 +52,15 @@ class Customer:
 		frequent_renter_points = 0
 		result = 'Rental Record for '+ self.get_name()+"\n"
 		for movie,daysRented in self.rental.items():
-			this_amount = 0
 			aRental = Rental(movie,daysRented)
-			this_amount = self.amount_for(aRental)
-
+			
 			frequent_renter_points+=1
 			if aRental.get_movie().get_priceCode() == Movie.NEW_RELEASE and aRental.get_daysRented()>1:
 				frequent_renter_points+=1
 			
-			result += "\t"+ aRental.get_movie().get_title() + "\t" + str(this_amount) + "\n"
-			total_amount+=this_amount
+			result += "\t"+ aRental.get_movie().get_title() + "\t" + str(aRental.get_charge()) + "\n"
+			total_amount+=aRental.get_charge()
 		result += "Amount owed is "+str(total_amount)+"\n"
 		result += "You earned "+str(frequent_renter_points)+" frequent renter points"
 		return result
-	def amount_for(self,aRental):
-		return aRental.get_charge()
+	
