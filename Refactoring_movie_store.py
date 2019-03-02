@@ -36,6 +36,12 @@ class Rental:
 				if(self.get_daysRented()>3):
 					this_amount+=(self.get_daysRented() - 3)*1.5
 		return this_amount
+	def frequent_renter_points(self):
+		if self.get_movie().get_priceCode() == Movie.NEW_RELEASE and self.get_daysRented()>1:
+			return 2
+		else:
+			return 1
+
 
 
 class Customer:
@@ -53,11 +59,7 @@ class Customer:
 		result = 'Rental Record for '+ self.get_name()+"\n"
 		for movie,daysRented in self.rental.items():
 			aRental = Rental(movie,daysRented)
-			
-			frequent_renter_points+=1
-			if aRental.get_movie().get_priceCode() == Movie.NEW_RELEASE and aRental.get_daysRented()>1:
-				frequent_renter_points+=1
-			
+			frequent_renter_points+=aRental.frequent_renter_points()
 			result += "\t"+ aRental.get_movie().get_title() + "\t" + str(aRental.get_charge()) + "\n"
 			total_amount+=aRental.get_charge()
 		result += "Amount owed is "+str(total_amount)+"\n"
