@@ -59,10 +59,19 @@ class Customer:
 			aRental = Rental(movie,daysRented)
 			result += "\t"+ aRental.get_movie().get_title() + "\t" + str(aRental.get_charge()) + "\n"
 			
-		result += "Amount owed is "+str(self.get_total_change())+"\n"
+		result += "Amount owed is "+str(self.get_total_charge())+"\n"
 		result += "You earned "+str(self.total_frequent_renter_points())+" frequent renter points"
 		return result
-	def get_total_change(self):
+	def HTML_statement(self):
+		result = "<H1>Rentals for <EM>" + self.get_name() + "</EM></H1><P>\n"
+		for movie,daysRented in self.rental.items():
+			aRental = Rental(movie,daysRented)
+			result += aRental.get_movie().get_title()+ ": " +str(aRental.get_charge()) + "<BR>\n"
+
+		result += "<P>You owe <EM>" + str(self.get_total_charge()) +"</EM><P>\n"
+		result += "On this rental you earned <EM>" +str(self.total_frequent_renter_points()) +"</EM> frequent renter points<P>"
+		return result
+	def get_total_charge(self):
 		total_amount = 0
 		for movie,daysRented in self.rental.items():
 			aRental = Rental(movie,daysRented)
