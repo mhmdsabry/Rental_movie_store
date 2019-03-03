@@ -54,15 +54,23 @@ class Customer:
 		return self.name
 		
 	def statement(self):
-		total_amount = 0
-		frequent_renter_points = 0
 		result = 'Rental Record for '+ self.get_name()+"\n"
 		for movie,daysRented in self.rental.items():
 			aRental = Rental(movie,daysRented)
-			frequent_renter_points+=aRental.frequent_renter_points()
 			result += "\t"+ aRental.get_movie().get_title() + "\t" + str(aRental.get_charge()) + "\n"
-			total_amount+=aRental.get_charge()
-		result += "Amount owed is "+str(total_amount)+"\n"
-		result += "You earned "+str(frequent_renter_points)+" frequent renter points"
+			
+		result += "Amount owed is "+str(self.get_total_change())+"\n"
+		result += "You earned "+str(self.total_frequent_renter_points())+" frequent renter points"
 		return result
-	
+	def get_total_change(self):
+		total_amount = 0
+		for movie,daysRented in self.rental.items():
+			aRental = Rental(movie,daysRented)
+			total_amount+=aRental.get_charge()
+		return total_amount
+	def total_frequent_renter_points(self):
+		frequent_renter_points = 0
+		for movie,daysRented in self.rental.items():
+			aRental = Rental(movie,daysRented)
+			frequent_renter_points+=aRental.frequent_renter_points()
+		return frequent_renter_points
